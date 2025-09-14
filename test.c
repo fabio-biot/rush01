@@ -111,3 +111,128 @@ int main()
 	print_board(board);
 	return (0);
 }
+
+#include <stdio.h>
+
+#define SIZE 4
+
+int count_visible(int *line, int size)
+{
+    int visible = 0;
+    int max_height = 0;
+    int i = 0;
+
+    while (i < size)
+    {
+        if (line[i] > max_height)
+        {
+            max_height = line[i];
+            visible++;
+        }
+        i++;
+    }
+    return visible;
+}
+
+int check_grid(int grid[SIZE][SIZE], int *clues)
+{
+    int line[SIZE];
+    int i = 0;
+    int j;
+
+    // Colonnes TOP
+    while (i < SIZE)
+    {
+        j = 0;
+        while (j < SIZE)
+        {
+            line[j] = grid[j][i];
+            j++;
+        }
+        if (count_visible(line, SIZE) != clues[i])
+            return 0;
+        i++;
+    }
+
+    // Colonnes BOTTOM
+    i = 0;
+    while (i < SIZE)
+    {
+        j = 0;
+        while (j < SIZE)
+        {
+            line[j] = grid[SIZE - 1 - j][i];
+            j++;
+        }
+        if (count_visible(line, SIZE) != clues[SIZE + i])
+            return 0;
+        i++;
+    }
+
+    // Lignes LEFT
+    i = 0;
+    while (i < SIZE)
+    {
+        j = 0;
+        while (j < SIZE)
+        {
+            line[j] = grid[i][j];
+            j++;
+        }
+        if (count_visible(line, SIZE) != clues[2 * SIZE + i])
+            return 0;
+        i++;
+    }
+
+    // Lignes RIGHT
+    i = 0;
+    while (i < SIZE)
+    {
+        j = 0;
+        while (j < SIZE)
+        {
+            line[j] = grid[i][SIZE - 1 - j];
+            j++;
+        }
+        if (count_visible(line, SIZE) != clues[3 * SIZE + i])
+            return 0;
+        i++;
+    }
+
+    return 1;
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        printf("Usage: ./a.out \"clues\"\n");
+        return 1;
+    }
+
+    int grid[SIZE][SIZE] = {
+        {4, 3, 2, 1},
+        {1, 2, 3, 4},
+        {2, 1, 4, 3},
+        {3, 4, 1, 2}
+    };
+
+    int clues[SIZE * 4];
+    char *str = argv[1];
+    int k = 0;
+    int idx = 0;
+
+    while (k < SIZE * 4)
+    {
+        clues[k] = str[idx] - '0';
+        idx += 2; // on saute l'espace
+        k++;
+    }
+
+    if (check_grid(grid, clues))
+        printf("✅ Grille valide\n");
+    else
+        printf("❌ Grille invalide\n");
+
+    return 0;
+}
