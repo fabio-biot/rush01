@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+
+<body>
+<h1>Go Back to Home</h1>
+<a href="/">Clique toi </a>
+
+<h1>Informations de l'action</h1>
+
+<p>
+Nom : {{ stock.shortName }}
+</p>
+
+<p>
+Symbole : {{ stock.symbol }}
+</p>
+
+<p>
+Prix actuel : {{ stock.currentPrice }}
+</p>
+
+<p>
+Capitalisation : {{ stock.marketCap }}
+</p>
+
+
+<h2>Historique du cours</h2>
+
+<table border="1">
+
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Close</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+
+        {% for day in hist_data %}
+
+        <tr>
+            <td>{{ day.Date }}</td>
+            <td>{{ day.Close }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+</body>
+
+</html>

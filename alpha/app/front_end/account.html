@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Account</title>
+</head>
+<body>
+    <h1>Your Account</h1>
+    <p>Welcome to your account page.</p>
+    <form action="/account" method="get">
+        <input
+            type="text" 
+            name="username"
+            type="text"
+            placeholder="Enter your username">
+        <input
+            type="text" 
+            name="first_name"
+            type="text"
+            placeholder="Enter your username">
+        <input
+            type="text" 
+            name="last_name"
+            type="text"
+            placeholder="Enter your username">
+
+        <input
+            type="password"
+            name="account_password"
+            placeholder="Enter your password">
+            
+        <button type="submit">Save</button>
+    </form>
+
+    <h4>Vos Coordonnes : </h4>
+    <p>Nom : {{ first_name }}</p>
+    <p>Prénom : {{ last_name }}</p>
+    <p>User Name : {{ username }}</p>
+    <p>User Password : {{ account_password }}</p>
+
+</body>
+</html>
