@@ -1,14 +1,14 @@
 import yfinance as yf
 from pathlib import Path
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from .services.yfinance_portal import *
 from .services.context_makers import *
 from .database.database_management import engine, Base
 from .database.update_tables import *
 from .models.tables import *
-
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,7 +23,15 @@ print(f"BASE_DIR: {BASE_DIR}")
 templates = Jinja2Templates(
     directory=str(BASE_DIR / "front_end/")
 )
+
 print(f"BASE_DIR: {str(BASE_DIR / "front_end")}")
+
+app.mount(
+    "/static",
+    StaticFiles(directory=BASE_DIR / "front_end" / "static"),
+    name="static"
+)
+
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse(
@@ -42,19 +50,39 @@ def show_stock_data(request: Request, ticker: str = "AAPL"):
     name="stocks_data.html",
     context=context_
 )
+
 @app.get("/account")
-def show_account_detail(request: Request, account_password: str = "123456",
-                        first_name: str = "John", last_name: str = "Doe",
-                        username: str = "fbrifa"):
-    if account_password == "123456" and first_name == "John" and last_name == "Doe" and username == "johndoe":
-        "do nothing"
-    context_ = account_context_maker(account_password, first_name, last_name, username)
-    update_user_table(context_)
+def show_account_detail(request: Request,):
     return templates.TemplateResponse(
     request=request,
     name="account.html",
-    context=context_
+    context={}
 )
+
+@app.post("/account")
+def create_account(
+    request: Request,
+    username: str = Form(...),
+    first_name: str = Form(...),
+    last_name: str = Form(...),
+    email: str = Form(...),
+    account_password: str = Form(...)
+):
+    context = account_context_maker(
+        account_password,
+        first_name,
+        last_name,
+        email,
+        username,
+    )
+    
+    update_user_table(context)
+
+    return templates.TemplateResponse(
+        request=request,
+        name="account.html",
+        context=context,
+    )
 
 def main():
     ticker = input("Enter the stock ticker symbol (e.g., AAPL, MSFT): ")

@@ -4,32 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Account</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>Your Account</h1>
     <p>Welcome to your account page.</p>
-    <form action="/account" method="get">
+    <a href="/"> Retour Acceuil </a>
+    <form action="/account" method="post">
         <input
-            type="text" 
             name="username"
             type="text"
             placeholder="Enter your username">
         <input
-            type="text" 
             name="first_name"
             type="text"
-            placeholder="Enter your username">
+            placeholder="Enter your First Name">
+
         <input
-            type="text" 
             name="last_name"
             type="text"
-            placeholder="Enter your username">
+            placeholder="Enter your Last Name">
 
         <input
             type="password"
             name="account_password"
             placeholder="Enter your password">
-            
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email">
+
+
         <button type="submit">Save</button>
     </form>
 
@@ -37,6 +43,7 @@
     <p>Nom : {{ first_name }}</p>
     <p>Prénom : {{ last_name }}</p>
     <p>User Name : {{ username }}</p>
+    <p>User Email : {{ email }}</p>
     <p>User Password : {{ account_password }}</p>
 
 </body>

@@ -1,11 +1,12 @@
 import yfinance as yf
 from .yfinance_portal import get_history_data
 
-def account_context_maker(account_password, first_name, last_name, username):
+def account_context_maker(account_password, first_name, last_name, email, username):
     return {
         "account_password": account_password,
         "first_name": first_name,
         "last_name": last_name,
+        "email": email,
         "username": username
     }
 
